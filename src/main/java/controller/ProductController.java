@@ -4,15 +4,12 @@ package controller;
 import model.Category;
 import model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import service.category.ICategoryService;
 import service.product.IProductService;
 
-import java.awt.print.Pageable;
-import java.util.ArrayList;
 import java.util.Optional;
 
 @Controller
@@ -68,7 +65,7 @@ public class ProductController {
         }else{
             products = productService.findAllByName(key);
         }
-        ModelAndView modelAndView = new ModelAndView("/product/list");
+        ModelAndView modelAndView = new ModelAndView("/product/list2");
         modelAndView.addObject("products", products);
         return modelAndView;
     }
