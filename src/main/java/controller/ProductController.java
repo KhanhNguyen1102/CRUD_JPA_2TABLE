@@ -4,6 +4,9 @@ package controller;
 import model.Category;
 import model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -45,18 +48,20 @@ public class ProductController {
         return modelAndView;
     }
 
-//    @GetMapping("/products")
-//    public ModelAndView listProducts(@RequestParam(defaultValue = "",required=false) String key) {
-//        Iterable<Product> products ;
-//        if (key.equals("")){
-//            products = productService.findAll();
-//        }else{
-//            products = productService.findAllByName(key);
-//        }
-//        ModelAndView modelAndView = new ModelAndView("/product/list");
-//        modelAndView.addObject("products", products);
-//        return modelAndView;
-//    }
+    @GetMapping("/page")
+    public ModelAndView showAllPage(@RequestParam(defaultValue = "",required=false) String key,@PageableDefault(value = 3) Pageable pageable) {
+        Page<Product> products;
+        if (key.equals("")){
+            products = productService.findAll(pageable);
+        }
+        else{
+            products = productService.findAllByNameContaining(key,pageable);
+        }
+        ModelAndView modelAndView = new ModelAndView("/product/list");
+        modelAndView.addObject("products", products);
+        modelAndView.addObject("key",key);
+        return modelAndView;
+    }
     @GetMapping("/products")
     public ModelAndView listProducts(@RequestParam(defaultValue = "",required=false) String key) {
         Iterable<Product> products ;

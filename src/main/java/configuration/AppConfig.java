@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -26,6 +27,8 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import service.category.CategoryService;
 import service.category.ICategoryService;
+import service.customer.CustomerService;
+import service.customer.ICustomerService;
 import service.product.IProductService;
 import service.product.ProductService;
 
@@ -43,6 +46,7 @@ import java.util.Properties;
 @EnableTransactionManagement // đánh dấu dự án có hỗ trợ transaction
 @EnableJpaRepositories("repository") // đánh dấu dự án có sử dụng jpa repository và đường dẫn
 @ComponentScan("controller")// cho Spring biết phải tìm controller ở đâu
+@EnableSpringDataWebSupport
 public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
 
     private ApplicationContext applicationContext;
@@ -125,6 +129,7 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addFormatter(new CategoryFormatter(applicationContext.getBean(CategoryService.class)));
+//        registry.addFormatter(new LocalDateFormatter("yyyy/mm/dd"));
     }
 
     @Override
@@ -141,4 +146,6 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         return new CategoryService();
     }
 
+    @Bean
+    public ICustomerService customerService() { return new CustomerService();}
 }

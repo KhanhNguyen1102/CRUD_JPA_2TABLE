@@ -2,6 +2,8 @@ package repository;
 
 import model.Category;
 import model.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,4 +17,5 @@ public interface IProductRepository extends JpaRepository<Product, Long> {
     // Spring Data JPA còn hỗ trợ thêm tự truy vấn đến cơ sở dữ liệu theo tên
     // như tên tương đương với câu truy vấn: select * from customer where categoryId = ?
     Iterable<Product> findAllByNameContaining(String name);
+    Page<Product> findAllByNameContaining(String name, Pageable pageable);
 }

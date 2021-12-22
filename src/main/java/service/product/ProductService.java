@@ -8,8 +8,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import repository.IProductRepository;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
-
+@Transactional
 @Service // đánh dấu @Service tự động tiêm interface này vào Spring Container quản lý
 public class ProductService implements IProductService {
     @Autowired
@@ -52,6 +53,13 @@ public class ProductService implements IProductService {
         return productRepository.findAllByNameContaining(name);
     }
 
-
+    @Override
+    public Page<Product> findAll(Pageable pageable) {
+        return productRepository.findAll(pageable);
+    }
+    @Override
+    public Page<Product> findAllByNameContaining(String name, Pageable pageable) {
+        return productRepository.findAllByNameContaining(name, pageable);
+    }
 
 }
